@@ -57,7 +57,7 @@ jobs:
             az storage blob upload-batch \
             --account-name "$AZURE_STORAGE_ACCOUNT" \
             --destination "\" \
-            --source "${{ env.BUILD_DIR }}"
+            --source ${{ env.BUILD_DIR }}
             --overwrite true
 
       # Azure logout

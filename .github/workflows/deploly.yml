@@ -40,7 +40,7 @@ jobs:
           #tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           #subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
           creds: ${{ secrets.AZURE_CREDENTIALS }}
-      - name: Upload to blob storage
+      - name: Enable Static website
         uses: azure/CLI@v1
         with:
           inlineScript: |
@@ -49,7 +49,16 @@ jobs:
             --static-website \
             --index-document "$INDEX_DOCUMENT" \
             --404-document "$ERROR_DOCUMENT"
-            --auth-mode key -d '$web' -s .
+
+      - name: Upload build artifacts to $web
+        uses: azure/CLI@v1
+        with:
+          inlineScript: |
+            az storage blob upload-batch \
+            --account-name "$AZURE_STORAGE_ACCOUNT" \
+            --destination "\" \
+            --source "${{ env.BUILD_DIR }}"
+            --overwrite true
 
       # Azure logout
       #- name: logout

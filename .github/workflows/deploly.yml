@@ -57,7 +57,7 @@ jobs:
           inlineScript: |
             az storage blob upload-batch \
             --account-name "$AZURE_STORAGE_ACCOUNT" \
-            --destination "$web" \
+            --destination '$web' \
             --source ${{ env.BUILD_DIR }}
             --overwrite true
 
